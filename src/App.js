@@ -2,12 +2,29 @@
 import React from "react";
 import StarRating from "./StarRating";
 
+function Test() {
+  const [ratedStars, setRatedStars] = React.useState(0);
+  return (
+    <div>
+      <StarRating setRatedStars={setRatedStars} />
+      <p>This movie was rated {ratedStars} stars</p>
+    </div>
+  );
+}
+
 export default function App() {
   return (
     <div>
-      <StarRating maxRating={5} />
-      <StarRating maxRating={10} />
-      <StarRating maxRating={15} />
+      <StarRating
+        maxRating={5}
+        defaultRating={2}
+        color="orange"
+        size={20}
+        messages={["Terrible", "Fair", "Okay", "Good", "Amazing"]}
+      />
+      <StarRating maxRating={10} color="blue" size={36} />
+      <StarRating maxRating={15} defaultRating={7}/>
+      <Test />
     </div>
   );
 }
