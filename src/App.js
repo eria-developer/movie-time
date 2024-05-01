@@ -83,11 +83,11 @@ const APIKEY = "20aff182";
 // const APIKEY = "f84fc31d";
 
 export default function App() {
-  const [movies, setMovies] = useState(tempMovieData);
+  const [movies, setMovies] = useState([]);
   const [isOpen1, setIsOpen1] = useState(true);
   const [isOpen2, setIsOpen2] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
-  const query = "iron man";
+  const query = "wolf";
 
   // React.useEffect(function () {
   //   fetch(`http://www.omdbapi.com/?apikey=${APIKEY}&s=avengers`)
@@ -120,7 +120,7 @@ export default function App() {
         <NumResults movies={movies} />
       </NavBar>
       <Main>
-        {/* {isLoading ? (
+        {isLoading ? (
           <Loader />
         ) : (
           <MovieList
@@ -128,8 +128,8 @@ export default function App() {
             isOpen1={isOpen1}
             setIsOpen1={setIsOpen1}
           />
-        )} */}
-        <MovieList movies={movies} isOpen1={isOpen1} setIsOpen1={setIsOpen1} />
+        )}
+        {/* <MovieList movies={movies} isOpen1={isOpen1} setIsOpen1={setIsOpen1} /> */}
         <WatchedMovies isOpen2={isOpen2} setIsOpen2={setIsOpen2} />
       </Main>
     </div>
