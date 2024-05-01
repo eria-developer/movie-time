@@ -54,9 +54,10 @@ body {
   max-width: 42rem;
   background-color: var(--color-background-500);
   border-radius: 0.9rem;
-  overflow: scroll;
+  /* overflow: hidden; */
   position: relative;
-  overflow: hidden;
+  /* overflow: hidden; */
+  overflow-y: hidden;
 }
 
 .loader {
@@ -139,7 +140,7 @@ body {
 .list {
   list-style: none;
   padding: 0.8rem 0;
-  overflow: scroll;
+  overflow: hidden;
 }
 
 .list-watched {

@@ -79,38 +79,12 @@ const tempWatchedData = [
 const average = (arr) =>
   arr.reduce((acc, cur, i, arr) => acc + cur / arr.length, 0);
 
-const APIKEY = "20aff182";
-// const APIKEY = "f84fc31d";
+// const APIKEY = "20aff182";
 
 export default function App() {
   const [movies, setMovies] = useState(tempMovieData);
   const [isOpen1, setIsOpen1] = useState(true);
   const [isOpen2, setIsOpen2] = useState(true);
-  const [isLoading, setIsLoading] = useState(false);
-  const query = "iron man";
-
-  // React.useEffect(function () {
-  //   fetch(`http://www.omdbapi.com/?apikey=${APIKEY}&s=avengers`)
-  //     .then((res) => res.json())
-  //     .then((data) => setMovies(data.Search));
-  // }, []);
-
-  // fetch(`http://www.omdbapi.com/?apikey=${APIKEY}&s=avengers`)
-  //   .then((res) => res.json())
-  //   .then((data) => console.log(data));
-
-  React.useEffect(function () {
-    async function fetchMovies() {
-      setIsLoading(true);
-      const res = await fetch(
-        `http://www.omdbapi.com/?apikey=${APIKEY}&s=${query}`
-      );
-      const data = await res.json();
-      setMovies(data.Search);
-      setIsLoading(false);
-    }
-    fetchMovies();
-  }, []);
 
   return (
     <div>
@@ -120,15 +94,6 @@ export default function App() {
         <NumResults movies={movies} />
       </NavBar>
       <Main>
-        {/* {isLoading ? (
-          <Loader />
-        ) : (
-          <MovieList
-            movies={movies}
-            isOpen1={isOpen1}
-            setIsOpen1={setIsOpen1}
-          />
-        )} */}
         <MovieList movies={movies} isOpen1={isOpen1} setIsOpen1={setIsOpen1} />
         <WatchedMovies isOpen2={isOpen2} setIsOpen2={setIsOpen2} />
       </Main>
@@ -223,7 +188,7 @@ function Movie({ Poster, Title, Year }) {
 }
 
 function WatchedMovies({ isOpen2, setIsOpen2 }) {
-  const [watched, setWatched] = useState([]);
+  const [watched, setWatched] = useState(tempWatchedData);
 
   return (
     <div className="box">
@@ -299,8 +264,4 @@ function WatchedSummary({ watched }) {
       </div>
     </div>
   );
-}
-
-function Loader() {
-  return <div className="loader">Loading...</div>;
 }
