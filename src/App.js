@@ -87,7 +87,8 @@ export default function App() {
   const [isOpen1, setIsOpen1] = useState(true);
   const [isOpen2, setIsOpen2] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
-  const query = "wolf";
+  const [error, setError] = useState("");
+  const query = "hdhdbbb";
 
   // React.useEffect(function () {
   //   fetch(`http://www.omdbapi.com/?apikey=${APIKEY}&s=avengers`)
@@ -101,13 +102,21 @@ export default function App() {
 
   React.useEffect(function () {
     async function fetchMovies() {
-      setIsLoading(true);
-      const res = await fetch(
-        `http://www.omdbapi.com/?apikey=${APIKEY}&s=${query}`
-      );
-      const data = await res.json();
-      setMovies(data.Search);
-      setIsLoading(false);
+      try {
+        setIsLoading(true);
+        const res = await fetch(
+          `http://www.omdbapi.com/?apikey=${APIKEY}&s=${query}`
+        );
+        if (!res.ok) throw new Error("Something went wrong with data fetching");
+        const data = await res.json();
+        if (data.Response === "False") throw new Error("Movie not found!!!");
+        setMovies(data.Search);
+      } catch (err) {
+        // console.log(err);
+        setError(err.message);
+      } finally {
+        setIsLoading(false);
+      }
     }
     fetchMovies();
   }, []);
@@ -120,15 +129,15 @@ export default function App() {
         <NumResults movies={movies} />
       </NavBar>
       <Main>
-        {isLoading ? (
-          <Loader />
-        ) : (
+        {isLoading && <Loader />}
+        {!isLoading && !error && (
           <MovieList
             movies={movies}
             isOpen1={isOpen1}
             setIsOpen1={setIsOpen1}
           />
         )}
+        {error && <ErrorMessage message={error} />}
         {/* <MovieList movies={movies} isOpen1={isOpen1} setIsOpen1={setIsOpen1} /> */}
         <WatchedMovies isOpen2={isOpen2} setIsOpen2={setIsOpen2} />
       </Main>
@@ -142,6 +151,10 @@ function Main({ children }) {
       <main className="main">{children}</main>
     </React.Fragment>
   );
+}
+
+function ErrorMessage({ message }) {
+  return <p className="error">{message}</p>;
 }
 
 function NavBar({ children }) {
