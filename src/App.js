@@ -88,7 +88,8 @@ export default function App() {
   const [isOpen2, setIsOpen2] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
-  const query = "hdhdbbb";
+  const [query, setQuery] = useState("");
+  const tempQuery = "hub";
 
   // React.useEffect(function () {
   //   fetch(`http://www.omdbapi.com/?apikey=${APIKEY}&s=avengers`)
@@ -121,11 +122,15 @@ export default function App() {
     fetchMovies();
   }, []);
 
+  React.useEffect(function () {
+    console.log("Called after query changed!"), [query];
+  });
+
   return (
     <div>
       <NavBar>
         <Logo />
-        <SearchBar />
+        <SearchBar query={query} setQuery={setQuery} />
         <NumResults movies={movies} />
       </NavBar>
       <Main>
@@ -165,13 +170,12 @@ function Logo() {
   return (
     <div className="logo">
       <span role="img">🍿</span>
-      <h1>usePopcorn</h1>
+      <h1>MovieTime</h1>
     </div>
   );
 }
 
-function SearchBar() {
-  const [query, setQuery] = useState("");
+function SearchBar({ query, setQuery }) {
   return (
     <input
       className="search"
